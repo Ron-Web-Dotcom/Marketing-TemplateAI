@@ -20,8 +20,10 @@ import {
 } from 'lucide-react';
 import { supabase, Campaign, AnalyticsMetric, AIInsight, ContentPerformance } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigation } from '../contexts/NavigationContext';
 
 export const Dashboard: React.FC = () => {
+  const { navigate } = useNavigation();
   const { user, loading: authLoading, signOut, trialStatus } = useAuth();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsMetric[]>([]);
@@ -33,9 +35,9 @@ export const Dashboard: React.FC = () => {
   useEffect(() => {
     if (!authLoading) {
       if (!user) {
-        (window as any).navigate?.('/auth');
+        navigate('/auth');
       } else if (trialStatus.isExpired && !trialStatus.isActive) {
-        (window as any).navigate?.('/upgrade');
+        navigate('/upgrade');
       } else {
         loadDashboardData();
       }
@@ -71,7 +73,7 @@ export const Dashboard: React.FC = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    (window as any).navigate?.('/');
+    navigate('/');
   };
 
   const getTodayMetrics = () => {
@@ -275,7 +277,9 @@ export const Dashboard: React.FC = () => {
               <div className="p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl">
                 <p className="text-sm text-gray-600 mb-1">ROI</p>
                 <p className="text-2xl font-bold text-orange-600">
-                  {((campaignStats.totalRevenue / campaignStats.totalSpent - 1) * 100).toFixed(0)}%
+                  {campaignStats.totalSpent > 0
+                    ? ((campaignStats.totalRevenue / campaignStats.totalSpent - 1) * 100).toFixed(0) + '%'
+                    : 'N/A'}
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">

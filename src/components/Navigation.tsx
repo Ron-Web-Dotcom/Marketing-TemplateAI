@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { config } from '../config';
 import { Button } from './Button';
+import { useNavigation } from '../contexts/NavigationContext';
 
 export const Navigation: React.FC = () => {
+  const { navigate } = useNavigation();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -47,7 +49,7 @@ export const Navigation: React.FC = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     if ((link as any).isRoute) {
-                      (window as any).navigate?.(link.href);
+                      navigate(link.href);
                     } else {
                       const element = document.querySelector(link.href);
                       element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -60,10 +62,7 @@ export const Navigation: React.FC = () => {
               <Button
                 size="sm"
                 className="ml-2"
-                onClick={(e: any) => {
-                  e.preventDefault();
-                  (window as any).navigate?.('/auth');
-                }}
+                onClick={() => navigate('/auth')}
               >
                 {config.hero.primaryCTA}
               </Button>
@@ -96,7 +95,7 @@ export const Navigation: React.FC = () => {
                     e.preventDefault();
                     setIsOpen(false);
                     if ((link as any).isRoute) {
-                      (window as any).navigate?.(link.href);
+                      navigate(link.href);
                     } else {
                       const element = document.querySelector(link.href);
                       element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -110,7 +109,7 @@ export const Navigation: React.FC = () => {
                 className="w-full mt-4"
                 onClick={() => {
                   setIsOpen(false);
-                  (window as any).navigate?.('/auth');
+                  navigate('/auth');
                 }}
               >
                 {config.hero.primaryCTA}

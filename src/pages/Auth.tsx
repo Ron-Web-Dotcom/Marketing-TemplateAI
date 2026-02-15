@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight, Sparkles, ArrowLeft, KeyRound } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigation } from '../contexts/NavigationContext';
 
 type ViewMode = 'signin' | 'signup' | 'forgot-password' | 'reset-password';
 
 export const Auth: React.FC = () => {
+  const { navigate } = useNavigation();
   const [viewMode, setViewMode] = useState<ViewMode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [resetCode, setResetCode] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState(false);
   const [error, setError] = useState('');
@@ -55,8 +54,12 @@ export const Auth: React.FC = () => {
 
   const validatePassword = (password: string): string | null => {
     if (!password) return 'Password is required';
-    if (password.length < 6) return 'Password must be at least 6 characters';
+    if (password.length < 8) return 'Password must be at least 8 characters';
     if (password.length > 72) return 'Password must be less than 72 characters';
+    if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter';
+    if (!/[a-z]/.test(password)) return 'Password must contain at least one lowercase letter';
+    if (!/[0-9]/.test(password)) return 'Password must contain at least one number';
+    if (!/[^A-Za-z0-9]/.test(password)) return 'Password must contain at least one special character';
     return null;
   };
 
@@ -132,7 +135,7 @@ export const Auth: React.FC = () => {
           setError(error.message || 'An error occurred');
         }
       } else {
-        (window as any).navigate?.('/dashboard');
+        navigate('/dashboard');
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
@@ -241,7 +244,7 @@ export const Auth: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/30 to-white flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
         <button
-          onClick={() => (window as any).navigate?.('/')}
+          onClick={() => navigate('/')}
           className="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition-colors mb-8 group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
@@ -370,12 +373,12 @@ export const Auth: React.FC = () => {
                         setPassword(e.target.value);
                         setValidationErrors({ ...validationErrors, password: '' });
                       }}
-                      minLength={6}
+                      minLength={8}
                       maxLength={72}
                       className={`w-full pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all ${
                         validationErrors.password ? 'bg-red-50' : 'bg-gray-50'
                       }`}
-                      placeholder={viewMode === 'signup' ? 'Minimum 6 characters' : 'Enter your password'}
+                      placeholder={viewMode === 'signup' ? 'At least 8 chars, 1 uppercase, 1 number, 1 special char' : 'Enter your password'}
                     />
                   </div>
                   {validationErrors.password && (
@@ -397,7 +400,7 @@ export const Auth: React.FC = () => {
                           setConfirmPassword(e.target.value);
                           setValidationErrors({ ...validationErrors, confirmPassword: '' });
                         }}
-                        minLength={6}
+                        minLength={8}
                         maxLength={72}
                         className={`w-full pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all ${
                           validationErrors.confirmPassword ? 'bg-red-50' : 'bg-gray-50'

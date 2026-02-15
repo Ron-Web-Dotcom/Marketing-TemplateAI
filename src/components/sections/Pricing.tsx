@@ -4,8 +4,10 @@ import { config } from '../../config';
 import { Section } from '../Section';
 import { SectionHeader } from '../SectionHeader';
 import { Button } from '../Button';
+import { useNavigation } from '../../contexts/NavigationContext';
 
 export const Pricing: React.FC = () => {
+  const { navigate } = useNavigation();
   return (
     <Section id="pricing" background="light">
       <SectionHeader
@@ -63,11 +65,10 @@ export const Pricing: React.FC = () => {
               variant={plan.highlighted ? 'secondary' : 'outline'}
               className={`w-full mb-8 ${plan.highlighted ? 'bg-white text-orange-600 hover:bg-orange-50 shadow-lg relative' : ''}`}
               onClick={() => {
-                console.log(`${plan.name} plan selected`);
                 if (plan.name === 'Enterprise') {
-                  window.location.href = 'mailto:ront.devops@gmail.com?subject=Enterprise Plan Inquiry';
+                  window.location.href = 'mailto:support@example.com?subject=Enterprise Plan Inquiry';
                 } else {
-                  (window as any).navigate?.('/auth');
+                  navigate('/auth');
                 }
               }}
             >

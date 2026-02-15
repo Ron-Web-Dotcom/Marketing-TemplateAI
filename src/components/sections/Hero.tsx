@@ -3,8 +3,10 @@ import { Download, Play } from 'lucide-react';
 import { config } from '../../config';
 import { Button } from '../Button';
 import { Section } from '../Section';
+import { useNavigation } from '../../contexts/NavigationContext';
 
 export const Hero: React.FC = () => {
+  const { navigate } = useNavigation();
   return (
     <Section className="pt-28 pb-20 bg-gradient-to-b from-orange-50 via-amber-50/30 to-white">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -27,7 +29,7 @@ export const Hero: React.FC = () => {
           <div className="flex flex-wrap gap-4 pt-2">
             <Button
               size="lg"
-              onClick={() => (window as any).navigate?.('/auth')}
+              onClick={() => navigate('/auth')}
             >
               <Download size={20} />
               {config.hero.primaryCTA}

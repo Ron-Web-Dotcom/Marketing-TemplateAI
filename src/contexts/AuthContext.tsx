@@ -46,15 +46,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     });
 
-    const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      (() => {
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          const isNewUser = event === 'SIGNED_IN' && session.user.created_at === session.user.updated_at;
-          loadSubscription(session.user.id, isNewUser);
-        }
-        setLoading(false);
-      })();
+    const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        const isNewUser = event === 'SIGNED_IN' && session.user.created_at === session.user.updated_at;
+        await loadSubscription(session.user.id, isNewUser);
+      }
+      setLoading(false);
     });
 
     return () => authSubscription.unsubscribe();

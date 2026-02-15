@@ -3,7 +3,6 @@ import * as Icons from 'lucide-react';
 import { config } from '../../config';
 import { Section } from '../Section';
 import { SectionHeader } from '../SectionHeader';
-import { Card } from '../Card';
 
 export const UseCases: React.FC = () => {
   return (

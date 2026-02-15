@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import { NavigationProvider, useNavigation } from './contexts/NavigationContext';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/sections/Hero';
 import { TrustBar } from './components/sections/TrustBar';
@@ -18,23 +18,7 @@ import { Auth } from './pages/Auth';
 import { Upgrade } from './pages/Upgrade';
 
 function AppContent() {
-  const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
-
-  useEffect(() => {
-    const handlePopState = () => {
-      setCurrentRoute(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const navigate = (path: string) => {
-    window.history.pushState({}, '', path);
-    setCurrentRoute(path);
-  };
-
-  (window as any).navigate = navigate;
+  const { currentRoute } = useNavigation();
 
   if (currentRoute === '/dashboard') {
     return <Dashboard />;
@@ -69,9 +53,11 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <NavigationProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </NavigationProvider>
   );
 }
 

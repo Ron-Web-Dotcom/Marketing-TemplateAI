@@ -15,6 +15,11 @@ Users can sign up or sign in using multiple authentication methods:
 - Automatically receive a **14-day free trial** upon signup
 - After successful authentication, users are automatically redirected to the dashboard
 
+**OAuth Configuration:**
+- Google and Apple OAuth must be configured in Supabase Dashboard
+- See [OAUTH_SETUP.md](./OAUTH_SETUP.md) for detailed setup instructions
+- Email/Password authentication works without additional configuration
+
 ### Trial Features
 - **14-day trial period** automatically starts when you create an account
 - Trial status banner displays days remaining in the dashboard

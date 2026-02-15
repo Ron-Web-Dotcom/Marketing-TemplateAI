@@ -39,11 +39,17 @@ export const Auth: React.FC = () => {
     try {
       const { error } = await signInWithGoogle();
       if (error) {
-        setError(error.message);
+        console.error('Google OAuth error:', error);
+        if (error.message?.includes('OAuth')) {
+          setError('Google sign-in is not configured. Please contact support.');
+        } else {
+          setError(error.message || 'Failed to sign in with Google');
+        }
         setOauthLoading(false);
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      console.error('Google OAuth error:', err);
+      setError('Failed to sign in with Google. Please try again.');
       setOauthLoading(false);
     }
   };
@@ -54,11 +60,17 @@ export const Auth: React.FC = () => {
     try {
       const { error } = await signInWithApple();
       if (error) {
-        setError(error.message);
+        console.error('Apple OAuth error:', error);
+        if (error.message?.includes('OAuth')) {
+          setError('Apple sign-in is not configured. Please contact support.');
+        } else {
+          setError(error.message || 'Failed to sign in with Apple');
+        }
         setOauthLoading(false);
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      console.error('Apple OAuth error:', err);
+      setError('Failed to sign in with Apple. Please try again.');
       setOauthLoading(false);
     }
   };
@@ -126,8 +138,13 @@ export const Auth: React.FC = () => {
             </div>
 
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
-                {error}
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm">
+                <p className="text-red-600 font-medium">{error}</p>
+                {error.includes('not configured') && (
+                  <p className="text-gray-600 mt-1">
+                    See <span className="font-mono text-xs">OAUTH_QUICKSTART.md</span> for setup instructions
+                  </p>
+                )}
               </div>
             )}
 

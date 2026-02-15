@@ -15,16 +15,16 @@ export const HowItWorks: React.FC = () => {
         {config.howItWorks.map((step, index) => (
           <div key={index} className="relative">
             {index < config.howItWorks.length - 1 && (
-              <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-sky-300 to-emerald-300" />
+              <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-orange-200 via-amber-200 to-orange-200" />
             )}
-            <div className="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-200">
-              <div className="w-16 h-16 bg-gradient-to-br from-sky-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 text-white text-2xl font-bold shadow-lg">
+            <div className="relative bg-white rounded-2xl p-8 shadow-md border border-orange-100 hover:shadow-xl hover:border-orange-200 transition-all">
+              <div className="w-14 h-14 bg-gradient-to-br from-orange-600 to-amber-600 rounded-xl flex items-center justify-center mb-6 text-white text-xl font-bold">
                 {step.step}
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-slate-900">
+              <h3 className="text-xl font-bold mb-3 text-gray-900">
                 {step.title}
               </h3>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-sm">
                 {step.description}
               </p>
             </div>

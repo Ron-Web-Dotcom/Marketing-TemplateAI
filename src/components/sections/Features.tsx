@@ -13,21 +13,24 @@ export const Features: React.FC = () => {
         subtitle="Everything you need to automate workflows, boost productivity, and scale your business."
       />
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {config.features.map((feature, index) => {
           const IconComponent = Icons[feature.icon as keyof typeof Icons] as React.FC<{ size?: number; className?: string }>;
           return (
-            <Card key={index}>
-              <div className="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mb-6">
-                {IconComponent && <IconComponent size={28} className="text-sky-500" />}
+            <div
+              key={index}
+              className="group bg-white p-8 rounded-2xl border border-orange-100 hover:border-orange-200 hover:shadow-xl transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                {IconComponent && <IconComponent size={24} className="text-white" />}
               </div>
-              <h3 className="text-xl font-bold mb-3 text-slate-900">
+              <h3 className="text-lg font-bold mb-2 text-gray-900">
                 {feature.title}
               </h3>
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed text-sm">
                 {feature.description}
               </p>
-            </Card>
+            </div>
           );
         })}
       </div>

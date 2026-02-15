@@ -17,12 +17,12 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   href,
 }) => {
-  const baseStyles = 'font-semibold rounded-lg transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer';
+  const baseStyles = 'font-semibold rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer';
 
   const variants = {
-    primary: 'bg-sky-500 text-white hover:bg-sky-600 hover:shadow-lg hover:scale-105 active:scale-100',
-    secondary: 'bg-slate-700 text-white hover:bg-slate-800 hover:shadow-lg hover:scale-105 active:scale-100',
-    outline: 'border-2 border-slate-300 text-slate-700 hover:border-sky-500 hover:text-sky-500 hover:shadow-md',
+    primary: 'bg-gradient-to-r from-orange-600 to-amber-600 text-white hover:from-orange-700 hover:to-amber-700 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-100',
+    secondary: 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-100',
+    outline: 'border-2 border-orange-300 text-orange-700 hover:border-orange-400 hover:bg-orange-50 hover:shadow-md',
   };
 
   const sizes = {

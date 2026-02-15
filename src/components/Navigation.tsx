@@ -26,24 +26,24 @@ export const Navigation: React.FC = () => {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-transparent'
+          isScrolled ? 'bg-white/80 backdrop-blur-lg shadow-sm border-b border-orange-100' : 'bg-white/50 backdrop-blur-sm'
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="flex items-center justify-between h-20">
+        <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
+          <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <span className="text-3xl">{config.brand.logo}</span>
-              <span className="text-2xl font-bold text-slate-900">
+              <span className="text-2xl">{config.brand.logo}</span>
+              <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
                 {config.brand.name}
               </span>
             </div>
 
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-slate-700 hover:text-sky-500 font-medium transition-colors"
+                  className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-4 py-2 rounded-lg hover:bg-orange-50/50"
                   onClick={(e) => {
                     e.preventDefault();
                     const element = document.querySelector(link.href);
@@ -53,14 +53,14 @@ export const Navigation: React.FC = () => {
                   {link.label}
                 </a>
               ))}
-              <Button size="sm" href="#pricing">{config.hero.primaryCTA}</Button>
+              <Button size="sm" href="#pricing" className="ml-2">{config.hero.primaryCTA}</Button>
             </div>
 
             <button
-              className="md:hidden text-slate-900 p-2"
+              className="md:hidden text-gray-900 p-2 hover:bg-orange-50 rounded-lg transition-colors"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -69,16 +69,16 @@ export const Navigation: React.FC = () => {
       {isOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-gray-900/60 backdrop-blur-md"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 top-0 bottom-0 w-64 bg-white shadow-2xl p-6 pt-24">
-            <div className="flex flex-col gap-6">
+          <div className="absolute right-0 top-0 bottom-0 w-72 bg-white shadow-2xl p-8 pt-24">
+            <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-lg font-medium text-slate-700 hover:text-sky-500 transition-colors"
+                  className="text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50 px-4 py-3 rounded-lg transition-colors"
                   onClick={(e) => {
                     e.preventDefault();
                     setIsOpen(false);
@@ -90,7 +90,7 @@ export const Navigation: React.FC = () => {
                 </a>
               ))}
               <Button
-                className="w-full"
+                className="w-full mt-4"
                 href="#pricing"
                 onClick={() => setIsOpen(false)}
               >

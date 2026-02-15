@@ -19,29 +19,32 @@ export const Pricing: React.FC = () => {
             key={index}
             className={`rounded-2xl p-8 ${
               plan.highlighted
-                ? 'bg-slate-900 text-white border-4 border-sky-500 shadow-2xl scale-105'
-                : 'bg-white border border-slate-200'
+                ? 'bg-gradient-to-br from-orange-600 to-amber-600 text-white border-2 border-orange-400 shadow-2xl scale-105 relative overflow-hidden'
+                : 'bg-white border border-orange-100 hover:border-orange-200 hover:shadow-lg transition-all'
             }`}
           >
             {plan.highlighted && (
-              <div className="bg-sky-500 text-white text-sm font-bold px-4 py-1 rounded-full inline-block mb-4">
-                MOST POPULAR
-              </div>
+              <>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl" />
+                <div className="relative bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4 backdrop-blur-sm">
+                  MOST POPULAR
+                </div>
+              </>
             )}
 
             <h3
               className={`text-2xl font-bold mb-2 ${
-                plan.highlighted ? 'text-white' : 'text-slate-900'
+                plan.highlighted ? 'text-white relative' : 'text-gray-900'
               }`}
             >
               {plan.name}
             </h3>
 
             <div className="mb-4">
-              <span className="text-5xl font-bold">{plan.price}</span>
+              <span className={`text-5xl font-bold ${plan.highlighted ? 'relative' : ''}`}>{plan.price}</span>
               <span
                 className={`text-lg ml-2 ${
-                  plan.highlighted ? 'text-slate-300' : 'text-slate-600'
+                  plan.highlighted ? 'text-white/80' : 'text-gray-600'
                 }`}
               >
                 {plan.period}
@@ -50,15 +53,15 @@ export const Pricing: React.FC = () => {
 
             <p
               className={`mb-8 ${
-                plan.highlighted ? 'text-slate-300' : 'text-slate-600'
+                plan.highlighted ? 'text-white/90 relative' : 'text-gray-600'
               }`}
             >
               {plan.description}
             </p>
 
             <Button
-              variant={plan.highlighted ? 'primary' : 'outline'}
-              className="w-full mb-8"
+              variant={plan.highlighted ? 'secondary' : 'outline'}
+              className={`w-full mb-8 ${plan.highlighted ? 'bg-white text-orange-600 hover:bg-orange-50 shadow-lg relative' : ''}`}
               onClick={() => {
                 console.log(`${plan.name} plan selected`);
                 if (plan.name === 'Enterprise') {
@@ -75,14 +78,14 @@ export const Pricing: React.FC = () => {
               {plan.features.map((feature, featureIndex) => (
                 <li key={featureIndex} className="flex items-start gap-3">
                   <Check
-                    size={20}
+                    size={18}
                     className={`flex-shrink-0 mt-0.5 ${
-                      plan.highlighted ? 'text-sky-400' : 'text-emerald-500'
+                      plan.highlighted ? 'text-white/90 relative' : 'text-orange-500'
                     }`}
                   />
                   <span
                     className={
-                      plan.highlighted ? 'text-slate-200' : 'text-slate-700'
+                      plan.highlighted ? 'text-white/90 relative' : 'text-gray-700'
                     }
                   >
                     {feature}

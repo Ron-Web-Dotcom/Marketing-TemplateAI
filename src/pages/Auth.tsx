@@ -278,8 +278,8 @@ export const Auth: React.FC = () => {
                       setEmail(e.target.value);
                       setValidationErrors({ ...validationErrors, email: '' });
                     }}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all ${
-                      validationErrors.email ? 'border-red-300 bg-red-50' : 'border-orange-200'
+                    className={`w-full pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all ${
+                      validationErrors.email ? 'bg-red-50' : 'bg-gray-50'
                     }`}
                     placeholder="you@example.com"
                   />
@@ -346,8 +346,8 @@ export const Auth: React.FC = () => {
                         setEmail(e.target.value);
                         setValidationErrors({ ...validationErrors, email: '' });
                       }}
-                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all ${
-                        validationErrors.email ? 'border-red-300 bg-red-50' : 'border-orange-200'
+                      className={`w-full pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all ${
+                        validationErrors.email ? 'bg-red-50' : 'bg-gray-50'
                       }`}
                       placeholder="you@example.com"
                     />
@@ -372,8 +372,8 @@ export const Auth: React.FC = () => {
                       }}
                       minLength={6}
                       maxLength={72}
-                      className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all ${
-                        validationErrors.password ? 'border-red-300 bg-red-50' : 'border-orange-200'
+                      className={`w-full pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all ${
+                        validationErrors.password ? 'bg-red-50' : 'bg-gray-50'
                       }`}
                       placeholder={viewMode === 'signup' ? 'Minimum 6 characters' : 'Enter your password'}
                     />
@@ -399,8 +399,8 @@ export const Auth: React.FC = () => {
                         }}
                         minLength={6}
                         maxLength={72}
-                        className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all ${
-                          validationErrors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-orange-200'
+                        className={`w-full pl-10 pr-4 py-3 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all ${
+                          validationErrors.confirmPassword ? 'bg-red-50' : 'bg-gray-50'
                         }`}
                         placeholder="Re-enter your password"
                       />

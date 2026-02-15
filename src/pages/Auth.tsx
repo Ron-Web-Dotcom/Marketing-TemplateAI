@@ -40,16 +40,12 @@ export const Auth: React.FC = () => {
       const { error } = await signInWithGoogle();
       if (error) {
         console.error('Google OAuth error:', error);
-        if (error.message?.includes('OAuth')) {
-          setError('Google sign-in is not configured. Please contact support.');
-        } else {
-          setError(error.message || 'Failed to sign in with Google');
-        }
+        setError('Google OAuth is not enabled in Supabase Dashboard. See OAUTH_ENABLE_NOW.md for 5-minute setup.');
         setOauthLoading(false);
       }
     } catch (err: any) {
       console.error('Google OAuth error:', err);
-      setError('Failed to sign in with Google. Please try again.');
+      setError('Google OAuth is not enabled in Supabase Dashboard. See OAUTH_ENABLE_NOW.md for 5-minute setup.');
       setOauthLoading(false);
     }
   };
@@ -61,16 +57,12 @@ export const Auth: React.FC = () => {
       const { error } = await signInWithApple();
       if (error) {
         console.error('Apple OAuth error:', error);
-        if (error.message?.includes('OAuth')) {
-          setError('Apple sign-in is not configured. Please contact support.');
-        } else {
-          setError(error.message || 'Failed to sign in with Apple');
-        }
+        setError('Apple OAuth is not enabled in Supabase Dashboard. See OAUTH_ENABLE_NOW.md for 10-minute setup.');
         setOauthLoading(false);
       }
     } catch (err: any) {
       console.error('Apple OAuth error:', err);
-      setError('Failed to sign in with Apple. Please try again.');
+      setError('Apple OAuth is not enabled in Supabase Dashboard. See OAUTH_ENABLE_NOW.md for 10-minute setup.');
       setOauthLoading(false);
     }
   };
@@ -138,12 +130,13 @@ export const Auth: React.FC = () => {
             </div>
 
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm">
-                <p className="text-red-600 font-medium">{error}</p>
-                {error.includes('not configured') && (
-                  <p className="text-gray-600 mt-1">
-                    See <span className="font-mono text-xs">OAUTH_QUICKSTART.md</span> for setup instructions
-                  </p>
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <p className="text-amber-900 font-medium text-sm mb-2">{error}</p>
+                {error.includes('not enabled') && (
+                  <div className="text-xs text-amber-800 space-y-1">
+                    <p>📋 Open the <span className="font-mono font-semibold">OAUTH_ENABLE_NOW.md</span> file for step-by-step instructions.</p>
+                    <p>✅ Or use Email/Password authentication (works immediately, no setup needed)</p>
+                  </div>
                 )}
               </div>
             )}

@@ -18,18 +18,18 @@ export const FAQ: React.FC = () => {
         {config.faq.map((item, index) => (
           <div
             key={index}
-            className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-sky-200 transition-all duration-300"
+            className="bg-white border border-orange-100 rounded-xl overflow-hidden hover:border-orange-200 transition-all duration-300"
           >
             <button
               className="w-full px-6 py-5 flex items-center justify-between text-left"
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
             >
-              <span className="font-semibold text-lg text-slate-900">
+              <span className="font-semibold text-lg text-gray-900">
                 {item.question}
               </span>
               <ChevronDown
                 size={24}
-                className={`text-slate-400 transition-transform duration-300 flex-shrink-0 ml-4 ${
+                className={`text-orange-500 transition-transform duration-300 flex-shrink-0 ml-4 ${
                   openIndex === index ? 'rotate-180' : ''
                 }`}
               />
@@ -40,7 +40,7 @@ export const FAQ: React.FC = () => {
                 openIndex === index ? 'max-h-96' : 'max-h-0'
               }`}
             >
-              <div className="px-6 pb-5 text-slate-600 leading-relaxed">
+              <div className="px-6 pb-5 text-gray-600 leading-relaxed">
                 {item.answer}
               </div>
             </div>

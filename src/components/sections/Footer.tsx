@@ -18,19 +18,19 @@ export const Footer: React.FC = () => {
             <div className="flex gap-4">
               <a
                 href={config.footer.social.twitter}
-                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-sky-500 transition-colors"
+                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors"
               >
                 <Twitter size={20} />
               </a>
               <a
                 href={config.footer.social.linkedin}
-                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-sky-500 transition-colors"
+                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors"
               >
                 <Linkedin size={20} />
               </a>
               <a
                 href={config.footer.social.github}
-                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-sky-500 transition-colors"
+                className="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors"
               >
                 <Github size={20} />
               </a>

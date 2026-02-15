@@ -65,9 +65,9 @@ export const Pricing: React.FC = () => {
               onClick={() => {
                 console.log(`${plan.name} plan selected`);
                 if (plan.name === 'Enterprise') {
-                  window.alert('📞 Thank you for your interest! Our sales team will contact you shortly.\n\nEmail: sales@neuralflow.ai\nPhone: 1-800-NEURAL');
+                  window.location.href = 'mailto:ront.devops@gmail.com?subject=Enterprise Plan Inquiry';
                 } else {
-                  window.alert(`🎉 Great choice! You've selected the ${plan.name} plan.\n\nYou'll be redirected to sign up in a production environment.`);
+                  (window as any).navigate?.('/auth');
                 }
               }}
             >

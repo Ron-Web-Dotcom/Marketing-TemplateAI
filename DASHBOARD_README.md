@@ -2,7 +2,17 @@
 
 ## Overview
 
-This project includes a fully AI-powered marketing admin dashboard with comprehensive analytics, insights, and campaign management features.
+This project includes a fully AI-powered marketing admin dashboard with comprehensive analytics, insights, and campaign management features. The dashboard is protected by authentication and requires users to sign up or sign in to access.
+
+## Authentication
+
+Users must sign up or sign in to access the dashboard:
+- Click "Get Started" or "Start Free Trial" buttons
+- Create an account with email and password (minimum 6 characters)
+- After successful authentication, users are automatically redirected to the dashboard
+
+### Contact Information
+For Enterprise plan inquiries: **ront.devops@gmail.com**
 
 ## Features
 
@@ -34,7 +44,12 @@ This project includes a fully AI-powered marketing admin dashboard with comprehe
 - Total campaign spend and revenue
 - Overall ROI calculation
 - Total clicks and conversions
-- Visual indicators for performance trends
+- Visual indicators for performance trends with proper percentage calculations (no NaN values)
+
+### 6. **Live Status Indicator**
+- Animated live indicator showing real-time dashboard status
+- Pulses every 5 seconds to indicate active connection
+- Green dot with pulsing animation
 
 ## Database Schema
 
@@ -47,9 +62,14 @@ The dashboard uses Supabase with the following tables:
 
 ## Accessing the Dashboard
 
-1. **From the Landing Page**: Click "Dashboard" in the navigation menu
-2. **Direct URL**: Navigate to `/dashboard`
-3. **Back to Home**: Use the back arrow button in the dashboard header
+1. **Sign Up/Sign In**: Click "Download for Free" or "Start Free Trial" on the landing page
+2. **Authentication Page**: Complete the sign up or sign in form
+3. **Automatic Redirect**: After successful authentication, you'll be redirected to the dashboard
+4. **Direct Access**: If already authenticated, navigate to `/dashboard`
+5. **Sign Out**: Click the "Sign Out" button in the dashboard header to log out
+6. **Back to Home**: Use the back arrow button in the dashboard header
+
+**Note**: Dashboard access is hidden from public navigation for security. Users must authenticate first.
 
 ## Sample Data
 

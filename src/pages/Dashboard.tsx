@@ -15,19 +15,38 @@ import {
   Clock,
   ArrowUp,
   ArrowDown,
-  ArrowLeft
+  ArrowLeft,
+  LogOut
 } from 'lucide-react';
 import { supabase, Campaign, AnalyticsMetric, AIInsight, ContentPerformance } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Dashboard: React.FC = () => {
+  const { user, loading: authLoading, signOut } = useAuth();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsMetric[]>([]);
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [content, setContent] = useState<ContentPerformance[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLive, setIsLive] = useState(true);
 
   useEffect(() => {
-    loadDashboardData();
+    if (!authLoading) {
+      if (!user) {
+        (window as any).navigate?.('/auth');
+      } else {
+        loadDashboardData();
+      }
+    }
+  }, [user, authLoading]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsLive(prev => !prev);
+      setTimeout(() => setIsLive(true), 100);
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const loadDashboardData = async () => {
@@ -48,27 +67,37 @@ export const Dashboard: React.FC = () => {
     setLoading(false);
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    (window as any).navigate?.('/');
+  };
+
   const getTodayMetrics = () => {
     if (analytics.length === 0) return null;
     const today = analytics[0];
     const yesterday = analytics[1] || today;
 
+    const calculateChange = (current: number, previous: number) => {
+      if (previous === 0) return 0;
+      return ((current - previous) / previous * 100);
+    };
+
     return {
       pageViews: {
         value: today.page_views,
-        change: ((today.page_views - yesterday.page_views) / yesterday.page_views * 100).toFixed(1)
+        change: calculateChange(today.page_views, yesterday.page_views)
       },
       visitors: {
         value: today.unique_visitors,
-        change: ((today.unique_visitors - yesterday.unique_visitors) / yesterday.unique_visitors * 100).toFixed(1)
+        change: calculateChange(today.unique_visitors, yesterday.unique_visitors)
       },
       revenue: {
         value: today.revenue,
-        change: ((today.revenue - yesterday.revenue) / yesterday.revenue * 100).toFixed(1)
+        change: calculateChange(today.revenue, yesterday.revenue)
       },
       conversionRate: {
         value: today.conversion_rate,
-        change: ((today.conversion_rate - yesterday.conversion_rate) / yesterday.conversion_rate * 100).toFixed(1)
+        change: calculateChange(today.conversion_rate, yesterday.conversion_rate)
       }
     };
   };
@@ -130,9 +159,19 @@ export const Dashboard: React.FC = () => {
             </h1>
             <p className="text-gray-600 mt-1">AI-powered insights and analytics</p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-orange-200 shadow-sm">
-            <Activity size={18} className="text-orange-600" />
-            <span className="text-sm font-medium text-gray-700">Live</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-orange-200 shadow-sm">
+              <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-gray-300'}`} />
+              <Activity size={18} className="text-orange-600" />
+              <span className="text-sm font-medium text-gray-700">Live</span>
+            </div>
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-orange-200 shadow-sm hover:bg-orange-50 transition-colors text-gray-700 hover:text-orange-600"
+            >
+              <LogOut size={18} />
+              <span className="text-sm font-medium">Sign Out</span>
+            </button>
           </div>
         </div>
 
@@ -256,6 +295,7 @@ interface MetricCardProps {
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, icon }) => {
   const isPositive = change >= 0;
+  const displayChange = isNaN(change) ? 0 : Math.abs(change);
 
   return (
     <div className="bg-white rounded-2xl border border-orange-100 p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -267,7 +307,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, icon }) =
           isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
         }`}>
           {isPositive ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
-          {Math.abs(change).toFixed(1)}%
+          {displayChange.toFixed(1)}%
         </div>
       </div>
       <p className="text-sm text-gray-600 mb-1">{title}</p>

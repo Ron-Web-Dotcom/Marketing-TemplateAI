@@ -27,8 +27,7 @@ export const Hero: React.FC = () => {
           <div className="flex flex-wrap gap-4 pt-2">
             <Button
               size="lg"
-              href="#pricing"
-              onClick={() => console.log('Download button clicked')}
+              onClick={() => (window as any).navigate?.('/auth')}
             >
               <Download size={20} />
               {config.hero.primaryCTA}

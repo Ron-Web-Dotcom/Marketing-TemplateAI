@@ -20,7 +20,6 @@ export const Navigation: React.FC = () => {
     { label: 'How It Works', href: '#how-it-works' },
     { label: 'Pricing', href: '#pricing' },
     { label: 'FAQ', href: '#faq' },
-    { label: 'Dashboard', href: '/dashboard', isRoute: true },
   ];
 
   return (
@@ -58,7 +57,16 @@ export const Navigation: React.FC = () => {
                   {link.label}
                 </a>
               ))}
-              <Button size="sm" href="#pricing" className="ml-2">{config.hero.primaryCTA}</Button>
+              <Button
+                size="sm"
+                className="ml-2"
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  (window as any).navigate?.('/auth');
+                }}
+              >
+                {config.hero.primaryCTA}
+              </Button>
             </div>
 
             <button
@@ -100,8 +108,10 @@ export const Navigation: React.FC = () => {
               ))}
               <Button
                 className="w-full mt-4"
-                href="#pricing"
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setIsOpen(false);
+                  (window as any).navigate?.('/auth');
+                }}
               >
                 {config.hero.primaryCTA}
               </Button>

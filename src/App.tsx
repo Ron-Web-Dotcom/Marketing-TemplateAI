@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/sections/Hero';
 import { TrustBar } from './components/sections/TrustBar';
@@ -13,8 +14,9 @@ import { FAQ } from './components/sections/FAQ';
 import { FinalCTA } from './components/sections/FinalCTA';
 import { Footer } from './components/sections/Footer';
 import { Dashboard } from './pages/Dashboard';
+import { Auth } from './pages/Auth';
 
-function App() {
+function AppContent() {
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
 
   useEffect(() => {
@@ -37,6 +39,10 @@ function App() {
     return <Dashboard />;
   }
 
+  if (currentRoute === '/auth') {
+    return <Auth />;
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -53,6 +59,14 @@ function App() {
       <FinalCTA />
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

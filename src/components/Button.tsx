@@ -6,6 +6,7 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   onClick?: () => void;
+  href?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -14,8 +15,9 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   className = '',
   onClick,
+  href,
 }) => {
-  const baseStyles = 'font-semibold rounded-lg transition-all duration-200 inline-flex items-center justify-center gap-2';
+  const baseStyles = 'font-semibold rounded-lg transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer';
 
   const variants = {
     primary: 'bg-sky-500 text-white hover:bg-sky-600 hover:shadow-lg hover:scale-105 active:scale-100',
@@ -29,9 +31,30 @@ export const Button: React.FC<ButtonProps> = ({
     lg: 'px-8 py-4 text-lg',
   };
 
+  const classNames = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={classNames}
+        onClick={(e) => {
+          if (href.startsWith('#')) {
+            e.preventDefault();
+            const element = document.querySelector(href);
+            element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          onClick?.();
+        }}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
     <button
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      className={classNames}
       onClick={onClick}
     >
       {children}

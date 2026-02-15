@@ -18,11 +18,18 @@ export const FinalCTA: React.FC = () => {
         </p>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <Button size="lg">
+          <Button
+            size="lg"
+            href="#pricing"
+          >
             <Download size={20} />
             {config.hero.primaryCTA}
           </Button>
-          <Button size="lg" variant="outline">
+          <Button
+            size="lg"
+            variant="outline"
+            href="#pricing"
+          >
             View Pricing
             <ArrowRight size={20} />
           </Button>

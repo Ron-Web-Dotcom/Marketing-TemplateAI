@@ -44,11 +44,16 @@ export const Navigation: React.FC = () => {
                   key={link.label}
                   href={link.href}
                   className="text-slate-700 hover:text-sky-500 font-medium transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const element = document.querySelector(link.href);
+                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
                 >
                   {link.label}
                 </a>
               ))}
-              <Button size="sm">{config.hero.primaryCTA}</Button>
+              <Button size="sm" href="#pricing">{config.hero.primaryCTA}</Button>
             </div>
 
             <button
@@ -74,12 +79,23 @@ export const Navigation: React.FC = () => {
                   key={link.label}
                   href={link.href}
                   className="text-lg font-medium text-slate-700 hover:text-sky-500 transition-colors"
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsOpen(false);
+                    const element = document.querySelector(link.href);
+                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
                 >
                   {link.label}
                 </a>
               ))}
-              <Button className="w-full">{config.hero.primaryCTA}</Button>
+              <Button
+                className="w-full"
+                href="#pricing"
+                onClick={() => setIsOpen(false)}
+              >
+                {config.hero.primaryCTA}
+              </Button>
             </div>
           </div>
         </div>

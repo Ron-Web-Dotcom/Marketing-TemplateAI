@@ -59,6 +59,14 @@ export const Pricing: React.FC = () => {
             <Button
               variant={plan.highlighted ? 'primary' : 'outline'}
               className="w-full mb-8"
+              onClick={() => {
+                console.log(`${plan.name} plan selected`);
+                if (plan.name === 'Enterprise') {
+                  window.alert('📞 Thank you for your interest! Our sales team will contact you shortly.\n\nEmail: sales@neuralflow.ai\nPhone: 1-800-NEURAL');
+                } else {
+                  window.alert(`🎉 Great choice! You've selected the ${plan.name} plan.\n\nYou'll be redirected to sign up in a production environment.`);
+                }
+              }}
             >
               {plan.cta}
             </Button>

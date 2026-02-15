@@ -21,11 +21,22 @@ export const Hero: React.FC = () => {
               {config.hero.subheadline}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button size="lg">
+              <Button
+                size="lg"
+                href="#pricing"
+                onClick={() => console.log('Download button clicked')}
+              >
                 <Download size={20} />
                 {config.hero.primaryCTA}
               </Button>
-              <Button size="lg" variant="outline">
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => {
+                  console.log('Demo button clicked');
+                  window.alert('🎬 Demo video coming soon! Scroll down to explore all features.');
+                }}
+              >
                 <Play size={20} />
                 {config.hero.secondaryCTA}
               </Button>

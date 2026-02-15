@@ -23,6 +23,33 @@ export const Auth: React.FC = () => {
     if (!email) return 'Email is required';
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return 'Please enter a valid email address';
+
+    const domain = email.split('@')[1]?.toLowerCase();
+    if (!domain) return 'Please enter a valid email address';
+
+    const fakeDomains = [
+      'test.com', 'example.com', 'fake.com', 'dummy.com', 'sample.com',
+      'temp.com', 'temporary.com', 'fakeemail.com', 'notreal.com',
+      'mailinator.com', 'guerrillamail.com', 'throwaway.email',
+      '10minutemail.com', 'tempmail.com', 'disposable.com'
+    ];
+
+    if (fakeDomains.includes(domain)) {
+      return 'Please use a real email address';
+    }
+
+    const tld = domain.split('.').pop();
+    const validTLDs = [
+      'com', 'net', 'org', 'edu', 'gov', 'mil', 'int',
+      'co', 'uk', 'ca', 'au', 'de', 'fr', 'jp', 'cn', 'in', 'br',
+      'io', 'ai', 'app', 'dev', 'tech', 'online', 'store', 'shop',
+      'us', 'info', 'biz', 'me', 'tv', 'cc'
+    ];
+
+    if (tld && !validTLDs.includes(tld)) {
+      return 'Please use a valid email domain';
+    }
+
     return null;
   };
 
@@ -65,6 +92,31 @@ export const Auth: React.FC = () => {
     setLoading(true);
 
     try {
+      const domain = email.split('@')[1];
+      const verifyResponse = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-email-domain`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ domain }),
+        }
+      );
+
+      const verifyData = await verifyResponse.json();
+
+      if (!verifyData.isValid) {
+        setValidationErrors({
+          email: 'This email domain does not appear to be valid. Please use a real email address.',
+          password: '',
+          confirmPassword: '',
+        });
+        setLoading(false);
+        return;
+      }
+
       const { error } = viewMode === 'signup'
         ? await signUp(email, password)
         : await signIn(email, password);

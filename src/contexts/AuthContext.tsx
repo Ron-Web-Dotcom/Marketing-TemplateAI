@@ -10,6 +10,8 @@ interface AuthContextType {
   trialStatus: { isExpired: boolean; daysRemaining: number; isActive: boolean };
   signUp: (email: string, password: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signInWithGoogle: () => Promise<{ error: any }>;
+  signInWithApple: () => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   refreshSubscription: () => Promise<void>;
 }
@@ -85,13 +87,55 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
+  const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (!error && data) {
+      const session = await supabase.auth.getSession();
+      if (session.data.session?.user) {
+        const existingSub = await getUserSubscription(session.data.session.user.id);
+        if (!existingSub) {
+          await createTrialSubscription(session.data.session.user.id);
+        }
+      }
+    }
+
+    return { error };
+  };
+
+  const signInWithApple = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (!error && data) {
+      const session = await supabase.auth.getSession();
+      if (session.data.session?.user) {
+        const existingSub = await getUserSubscription(session.data.session.user.id);
+        if (!existingSub) {
+          await createTrialSubscription(session.data.session.user.id);
+        }
+      }
+    }
+
+    return { error };
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, subscription, trialStatus, signUp, signIn, signOut, refreshSubscription }}>
+    <AuthContext.Provider value={{ user, loading, subscription, trialStatus, signUp, signIn, signInWithGoogle, signInWithApple, signOut, refreshSubscription }}>
       {children}
     </AuthContext.Provider>
   );

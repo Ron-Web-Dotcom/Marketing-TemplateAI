@@ -36,8 +36,8 @@ export const Hero: React.FC = () => {
               size="lg"
               variant="outline"
               onClick={() => {
-                console.log('Demo button clicked');
-                window.alert('🎬 Demo video coming soon! Scroll down to explore all features.');
+                const demoUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+                window.open(demoUrl, '_blank');
               }}
             >
               <Play size={20} />

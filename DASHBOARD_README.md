@@ -7,9 +7,11 @@ This project includes a fully AI-powered marketing admin dashboard with comprehe
 ## Authentication & Trial System
 
 ### Sign Up & Trial
-Users must sign up or sign in to access the dashboard:
-- Click "Get Started" or "Start Free Trial" buttons
-- Create an account with email and password (minimum 6 characters)
+Users can sign up or sign in using multiple authentication methods:
+- **Email/Password**: Traditional sign up with email and password (minimum 6 characters)
+- **Google Sign-In**: One-click authentication with your Google account
+- **Apple Sign-In**: Secure authentication with your Apple ID
+- Click "Get Started", "Start Free Trial", or "Download for Free" buttons
 - Automatically receive a **14-day free trial** upon signup
 - After successful authentication, users are automatically redirected to the dashboard
 
@@ -27,7 +29,12 @@ Users must sign up or sign in to access the dashboard:
 
 ### Payment & Upgrade
 - Secure payment processing via Stripe
-- Credit card payment for Enterprise plan ($299/month)
+- **Multiple payment methods available**:
+  - Credit/Debit Card
+  - PayPal
+  - Google Pay
+  - Apple Pay
+- Enterprise plan: $299/month
 - Instant access after successful payment
 - Cancel anytime through your account
 
@@ -86,10 +93,28 @@ The dashboard uses Supabase with the following tables:
 - **ai_insights**: AI-generated insights, recommendations, and alerts
 - **content_performance**: Content-level performance tracking
 
+## Interactive Features
+
+### Watch Demo
+- Click "Watch Demo" button on the homepage to view a product demonstration
+- Opens in a new tab for easy viewing
+
+### Request Integration
+- Don't see your favorite tool in our integrations list?
+- Click "Request an Integration" at the bottom of the Integrations section
+- Fill out the simple form with:
+  - Integration name
+  - Your email
+  - Why you need this integration
+- We review all requests and prioritize based on demand
+
 ## Accessing the Dashboard
 
 1. **Sign Up/Sign In**: Click "Download for Free" or "Start Free Trial" on the landing page
-2. **Authentication Page**: Complete the sign up or sign in form
+2. **Authentication Page**: Complete the sign up or sign in form using:
+   - Email and password
+   - Google Sign-In (one-click)
+   - Apple Sign-In (secure)
 3. **Automatic Redirect**: After successful authentication, you'll be redirected to the dashboard
 4. **Direct Access**: If already authenticated, navigate to `/dashboard`
 5. **Sign Out**: Click the "Sign Out" button in the dashboard header to log out

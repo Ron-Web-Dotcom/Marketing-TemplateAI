@@ -20,6 +20,7 @@ export const Navigation: React.FC = () => {
     { label: 'How It Works', href: '#how-it-works' },
     { label: 'Pricing', href: '#pricing' },
     { label: 'FAQ', href: '#faq' },
+    { label: 'Dashboard', href: '/dashboard', isRoute: true },
   ];
 
   return (
@@ -46,8 +47,12 @@ export const Navigation: React.FC = () => {
                   className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-4 py-2 rounded-lg hover:bg-orange-50/50"
                   onClick={(e) => {
                     e.preventDefault();
-                    const element = document.querySelector(link.href);
-                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if ((link as any).isRoute) {
+                      (window as any).navigate?.(link.href);
+                    } else {
+                      const element = document.querySelector(link.href);
+                      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                   }}
                 >
                   {link.label}
@@ -82,8 +87,12 @@ export const Navigation: React.FC = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     setIsOpen(false);
-                    const element = document.querySelector(link.href);
-                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if ((link as any).isRoute) {
+                      (window as any).navigate?.(link.href);
+                    } else {
+                      const element = document.querySelector(link.href);
+                      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                   }}
                 >
                   {link.label}

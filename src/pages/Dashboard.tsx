@@ -22,7 +22,7 @@ import { supabase, Campaign, AnalyticsMetric, AIInsight, ContentPerformance } fr
 import { useAuth } from '../contexts/AuthContext';
 
 export const Dashboard: React.FC = () => {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading, signOut, trialStatus } = useAuth();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsMetric[]>([]);
   const [insights, setInsights] = useState<AIInsight[]>([]);
@@ -34,11 +34,13 @@ export const Dashboard: React.FC = () => {
     if (!authLoading) {
       if (!user) {
         (window as any).navigate?.('/auth');
+      } else if (trialStatus.isExpired && !trialStatus.isActive) {
+        (window as any).navigate?.('/upgrade');
       } else {
         loadDashboardData();
       }
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, trialStatus]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -174,6 +176,40 @@ export const Dashboard: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {!trialStatus.isActive && trialStatus.daysRemaining > 0 && (
+          <div className="mb-6 p-4 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl shadow-lg">
+            <div className="flex items-center justify-between text-white">
+              <div className="flex items-center gap-3">
+                <Clock size={24} />
+                <div>
+                  <p className="font-semibold">Trial Active</p>
+                  <p className="text-sm text-white/90">
+                    {trialStatus.daysRemaining} {trialStatus.daysRemaining === 1 ? 'day' : 'days'} remaining in your free trial
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => (window as any).navigate?.('/upgrade')}
+                className="bg-white text-orange-600 px-6 py-2 rounded-lg font-semibold hover:bg-orange-50 transition-colors shadow-md"
+              >
+                Upgrade Now
+              </button>
+            </div>
+          </div>
+        )}
+
+        {trialStatus.isActive && (
+          <div className="mb-6 p-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl shadow-lg">
+            <div className="flex items-center gap-3 text-white">
+              <Sparkles size={24} />
+              <div>
+                <p className="font-semibold">Enterprise Plan Active</p>
+                <p className="text-sm text-white/90">You have full access to all features</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {metrics && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

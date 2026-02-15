@@ -1,13 +1,17 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { User } from '@supabase/supabase-js';
+import { createTrialSubscription, getUserSubscription, checkTrialStatus, UserSubscription } from '../utils/subscription';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  subscription: UserSubscription | null;
+  trialStatus: { isExpired: boolean; daysRemaining: number; isActive: boolean };
   signUp: (email: string, password: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  refreshSubscription: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -15,22 +19,43 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState<UserSubscription | null>(null);
+  const [trialStatus, setTrialStatus] = useState({ isExpired: true, daysRemaining: 0, isActive: false });
+
+  const loadSubscription = async (userId: string) => {
+    const sub = await getUserSubscription(userId);
+    setSubscription(sub);
+    const status = checkTrialStatus(sub);
+    setTrialStatus(status);
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        loadSubscription(session.user.id);
+      }
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange((event, session) => {
       (() => {
         setUser(session?.user ?? null);
+        if (session?.user) {
+          loadSubscription(session.user.id);
+        }
         setLoading(false);
       })();
     });
 
-    return () => subscription.unsubscribe();
+    return () => authSubscription.unsubscribe();
   }, []);
+
+  const refreshSubscription = async () => {
+    if (user) {
+      await loadSubscription(user.id);
+    }
+  };
 
   const signUp = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signUp({
@@ -40,6 +65,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (!error && data.user) {
       setUser(data.user);
+      await createTrialSubscription(data.user.id);
+      await loadSubscription(data.user.id);
     }
 
     return { error };
@@ -64,7 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, loading, subscription, trialStatus, signUp, signIn, signOut, refreshSubscription }}>
       {children}
     </AuthContext.Provider>
   );

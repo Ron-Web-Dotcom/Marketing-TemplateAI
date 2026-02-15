@@ -4,12 +4,32 @@
 
 This project includes a fully AI-powered marketing admin dashboard with comprehensive analytics, insights, and campaign management features. The dashboard is protected by authentication and requires users to sign up or sign in to access.
 
-## Authentication
+## Authentication & Trial System
 
+### Sign Up & Trial
 Users must sign up or sign in to access the dashboard:
 - Click "Get Started" or "Start Free Trial" buttons
 - Create an account with email and password (minimum 6 characters)
+- Automatically receive a **14-day free trial** upon signup
 - After successful authentication, users are automatically redirected to the dashboard
+
+### Trial Features
+- **14-day trial period** automatically starts when you create an account
+- Trial status banner displays days remaining in the dashboard
+- Full access to all features during the trial period
+- No credit card required to start the trial
+
+### After Trial Expiration
+- After 14 days, trial expires and dashboard access is blocked
+- Users are automatically redirected to the upgrade page
+- Must upgrade to Enterprise plan ($299/month) to continue using the platform
+- Cannot access dashboard without an active subscription
+
+### Payment & Upgrade
+- Secure payment processing via Stripe
+- Credit card payment for Enterprise plan ($299/month)
+- Instant access after successful payment
+- Cancel anytime through your account
 
 ### Contact Information
 For Enterprise plan inquiries: **ront.devops@gmail.com**
@@ -50,6 +70,12 @@ For Enterprise plan inquiries: **ront.devops@gmail.com**
 - Animated live indicator showing real-time dashboard status
 - Pulses every 5 seconds to indicate active connection
 - Green dot with pulsing animation
+
+### 7. **Subscription Management**
+- Clear trial status display showing days remaining
+- Upgrade button prominently displayed during trial
+- Enterprise plan badge when subscription is active
+- Automatic trial expiration enforcement
 
 ## Database Schema
 

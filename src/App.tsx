@@ -15,6 +15,7 @@ import { FinalCTA } from './components/sections/FinalCTA';
 import { Footer } from './components/sections/Footer';
 import { Dashboard } from './pages/Dashboard';
 import { Auth } from './pages/Auth';
+import { Upgrade } from './pages/Upgrade';
 
 function AppContent() {
   const [currentRoute, setCurrentRoute] = useState(window.location.pathname);
@@ -41,6 +42,10 @@ function AppContent() {
 
   if (currentRoute === '/auth') {
     return <Auth />;
+  }
+
+  if (currentRoute === '/upgrade') {
+    return <Upgrade />;
   }
 
   return (

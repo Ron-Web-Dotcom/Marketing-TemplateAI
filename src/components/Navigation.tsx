@@ -27,6 +27,7 @@ export const Navigation: React.FC = () => {
   return (
     <>
       <nav
+        aria-label="Main navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled ? 'bg-white/80 backdrop-blur-lg shadow-sm border-b border-orange-100' : 'bg-white/50 backdrop-blur-sm'
         }`}
@@ -71,6 +72,9 @@ export const Navigation: React.FC = () => {
             <button
               className="md:hidden text-gray-900 p-2 hover:bg-orange-50 rounded-lg transition-colors"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -83,8 +87,16 @@ export const Navigation: React.FC = () => {
           <div
             className="absolute inset-0 bg-gray-900/60 backdrop-blur-md"
             onClick={() => setIsOpen(false)}
+            role="button"
+            tabIndex={0}
+            aria-label="Close menu"
+            onKeyDown={(e) => e.key === 'Escape' && setIsOpen(false)}
           />
-          <div className="absolute right-0 top-0 bottom-0 w-72 bg-white shadow-2xl p-8 pt-24">
+          <nav
+            id="mobile-menu"
+            className="absolute right-0 top-0 bottom-0 w-72 bg-white shadow-2xl p-8 pt-24"
+            aria-label="Mobile navigation"
+          >
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <a
@@ -115,7 +127,7 @@ export const Navigation: React.FC = () => {
                 {config.hero.primaryCTA}
               </Button>
             </div>
-          </div>
+          </nav>
         </div>
       )}
     </>

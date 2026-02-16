@@ -10,6 +10,54 @@ interface RequestBody {
   domain: string;
 }
 
+interface RateLimitEntry {
+  count: number;
+  resetTime: number;
+}
+
+const rateLimitMap = new Map<string, RateLimitEntry>();
+const RATE_LIMIT = 5;
+const RATE_LIMIT_WINDOW = 60 * 1000;
+
+function getRateLimitKey(req: Request): string {
+  const forwarded = req.headers.get('x-forwarded-for');
+  const ip = forwarded ? forwarded.split(',')[0].trim() : 'unknown';
+  return `email-verify:${ip}`;
+}
+
+function checkRateLimit(key: string): { allowed: boolean; remaining: number; resetTime: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(key);
+
+  if (!entry || now > entry.resetTime) {
+    const newEntry: RateLimitEntry = {
+      count: 1,
+      resetTime: now + RATE_LIMIT_WINDOW,
+    };
+    rateLimitMap.set(key, newEntry);
+
+    if (rateLimitMap.size > 10000) {
+      const keysToDelete: string[] = [];
+      rateLimitMap.forEach((value, k) => {
+        if (now > value.resetTime) {
+          keysToDelete.push(k);
+        }
+      });
+      keysToDelete.forEach(k => rateLimitMap.delete(k));
+    }
+
+    return { allowed: true, remaining: RATE_LIMIT - 1, resetTime: newEntry.resetTime };
+  }
+
+  if (entry.count >= RATE_LIMIT) {
+    return { allowed: false, remaining: 0, resetTime: entry.resetTime };
+  }
+
+  entry.count++;
+  rateLimitMap.set(key, entry);
+  return { allowed: true, remaining: RATE_LIMIT - entry.count, resetTime: entry.resetTime };
+}
+
 async function checkDNSRecords(domain: string): Promise<boolean> {
   try {
     const dnsResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
@@ -28,7 +76,6 @@ async function checkDNSRecords(domain: string): Promise<boolean> {
 
     return false;
   } catch (error) {
-    console.error('DNS check error:', error);
     return false;
   }
 }
@@ -42,6 +89,30 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    const rateLimitKey = getRateLimitKey(req);
+    const rateLimit = checkRateLimit(rateLimitKey);
+
+    if (!rateLimit.allowed) {
+      const retryAfter = Math.ceil((rateLimit.resetTime - Date.now()) / 1000);
+      return new Response(
+        JSON.stringify({
+          isValid: false,
+          error: 'Rate limit exceeded. Please try again later.',
+        }),
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+            'X-RateLimit-Limit': RATE_LIMIT.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimit.resetTime.toString(),
+            'Retry-After': retryAfter.toString(),
+          },
+        }
+      );
+    }
+
     const { domain }: RequestBody = await req.json();
 
     if (!domain || typeof domain !== 'string') {
@@ -55,6 +126,9 @@ Deno.serve(async (req: Request) => {
           headers: {
             ...corsHeaders,
             'Content-Type': 'application/json',
+            'X-RateLimit-Limit': RATE_LIMIT.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetTime.toString(),
           },
         }
       );
@@ -79,6 +153,9 @@ Deno.serve(async (req: Request) => {
           headers: {
             ...corsHeaders,
             'Content-Type': 'application/json',
+            'X-RateLimit-Limit': RATE_LIMIT.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.resetTime.toString(),
           },
         }
       );
@@ -95,11 +172,13 @@ Deno.serve(async (req: Request) => {
         headers: {
           ...corsHeaders,
           'Content-Type': 'application/json',
+          'X-RateLimit-Limit': RATE_LIMIT.toString(),
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': rateLimit.resetTime.toString(),
         },
       }
     );
   } catch (error) {
-    console.error('Error:', error);
     return new Response(
       JSON.stringify({
         isValid: false,

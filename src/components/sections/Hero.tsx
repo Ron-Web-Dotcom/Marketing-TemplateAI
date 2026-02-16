@@ -68,8 +68,12 @@ export const Hero: React.FC = () => {
           <div className="relative bg-white p-2 rounded-2xl shadow-2xl border border-orange-100">
             <img
               src={config.hero.image}
-              alt="App Screenshot"
+              alt="AI-powered marketing dashboard showing real-time campaign analytics and performance metrics"
               className="rounded-xl w-full"
+              loading="eager"
+              decoding="async"
+              width="800"
+              height="600"
             />
           </div>
         </div>

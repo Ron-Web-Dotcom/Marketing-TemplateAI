@@ -16,38 +16,33 @@ interface ImportMetaEnv {
 }
 
 /**
- * Validate that a single environment variable is defined and non-empty.
+ * Read a single environment variable, returning an empty string if missing.
  *
- * @param name  - Human-readable name of the variable (for error messages).
  * @param value - The raw value from `import.meta.env`.
- * @returns The validated, trimmed string value.
- * @throws {Error} When the value is undefined or blank.
+ * @returns The trimmed string value, or `""` when undefined.
  */
-function validateEnvVar(name: string, value: string | undefined): string {
-  if (!value || value.trim() === '') {
-    throw new Error(
-      `Missing required environment variable: ${name}. ` +
-      `Please check your .env file and ensure all required variables are set.`
-    );
-  }
-  return value;
+function readEnvVar(value: string | undefined): string {
+  return value?.trim() ?? '';
 }
 
 /**
- * Retrieve and validate all required environment variables.
+ * Retrieve all Supabase environment variables.
+ * Returns empty strings when variables are not set — callers must
+ * guard against blank values before making network requests.
  *
  * @returns An object containing `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
- * @throws {Error} If any required variable is missing.
  */
 export function getEnvVars(): ImportMetaEnv {
   return {
-    VITE_SUPABASE_URL: validateEnvVar(
-      'VITE_SUPABASE_URL',
-      import.meta.env.VITE_SUPABASE_URL
-    ),
-    VITE_SUPABASE_ANON_KEY: validateEnvVar(
-      'VITE_SUPABASE_ANON_KEY',
-      import.meta.env.VITE_SUPABASE_ANON_KEY
-    ),
+    VITE_SUPABASE_URL: readEnvVar(import.meta.env.VITE_SUPABASE_URL),
+    VITE_SUPABASE_ANON_KEY: readEnvVar(import.meta.env.VITE_SUPABASE_ANON_KEY),
   };
+}
+
+/**
+ * Returns `true` when both Supabase env vars are configured.
+ */
+export function isSupabaseConfigured(): boolean {
+  const env = getEnvVars();
+  return env.VITE_SUPABASE_URL !== '' && env.VITE_SUPABASE_ANON_KEY !== '';
 }

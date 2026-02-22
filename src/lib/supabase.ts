@@ -8,16 +8,26 @@
  * @module lib/supabase
  */
 
-import { createClient } from '@supabase/supabase-js';
-import { getEnvVars } from '../utils/env';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { getEnvVars, isSupabaseConfigured } from '../utils/env';
 
 const env = getEnvVars();
 
 /**
- * Singleton Supabase client used for all database, auth, and storage
- * operations.  Credentials are sourced from environment variables.
+ * `true` when valid Supabase credentials are present.
+ * Components should check this before making Supabase calls.
  */
-export const supabase = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY);
+export const supabaseEnabled = isSupabaseConfigured();
+
+/**
+ * Singleton Supabase client used for all database, auth, and storage
+ * operations.  When env vars are missing a dummy client is created that
+ * will fail gracefully instead of crashing on import.
+ */
+export const supabase: SupabaseClient = createClient(
+  env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co',
+  env.VITE_SUPABASE_ANON_KEY || 'placeholder-key'
+);
 
 /* ------------------------------------------------------------------ */
 /*  Database Table Interfaces                                          */

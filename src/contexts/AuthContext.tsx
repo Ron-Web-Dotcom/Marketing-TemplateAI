@@ -10,7 +10,7 @@
  */
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, supabaseEnabled } from '../lib/supabase';
 import { User } from '@supabase/supabase-js';
 import {
   createTrialSubscription,
@@ -83,6 +83,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   /* Restore session on mount and subscribe to auth state changes. */
   useEffect(() => {
+    if (!supabaseEnabled) {
+      setLoading(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {

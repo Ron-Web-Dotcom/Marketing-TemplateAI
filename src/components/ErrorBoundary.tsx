@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Global React error boundary.
+ *
+ * Catches unhandled JavaScript errors anywhere in the component tree and
+ * renders a user-friendly fallback UI instead of a blank screen.
+ * In development mode, the raw error message is displayed for debugging.
+ *
+ * @module components/ErrorBoundary
+ */
+
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle } from 'lucide-react';
 

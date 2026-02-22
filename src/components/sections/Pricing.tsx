@@ -1,3 +1,14 @@
+/**
+ * @fileoverview Pricing tiers section.
+ *
+ * Renders Free / Pro / Enterprise pricing cards in a 3-column grid.
+ * The highlighted (Pro) tier is visually elevated with a gradient
+ * background and "MOST POPULAR" badge.  CTA buttons route to the
+ * auth flow or an enterprise sales email.
+ *
+ * @module components/sections/Pricing
+ */
+
 import React from 'react';
 import { Check } from 'lucide-react';
 import { config } from '../../config';

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Site-wide footer organism.
+ *
+ * Renders the brand logo, description, social links, and four link columns
+ * (Product, Company, Resources, Legal).  Content is sourced from
+ * {@link config.footer}.
+ *
+ * @module components/sections/Footer
+ */
+
 import React from 'react';
 import { Twitter, Linkedin, Github } from 'lucide-react';
 import { config } from '../../config';

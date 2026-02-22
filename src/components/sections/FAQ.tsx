@@ -1,3 +1,13 @@
+/**
+ * @fileoverview FAQ accordion section.
+ *
+ * Renders an accessible accordion of frequently asked questions.  Only
+ * one item can be expanded at a time.  Content is sourced from
+ * {@link config.faq}.  Each item uses proper ARIA attributes.
+ *
+ * @module components/sections/FAQ
+ */
+
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { config } from '../../config';

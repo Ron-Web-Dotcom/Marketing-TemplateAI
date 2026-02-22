@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Enterprise upgrade / checkout page.
+ *
+ * Displays the Enterprise plan feature list, pricing ($299/mo), and a
+ * "Proceed to Secure Checkout" button that:
+ * 1. Calls the `create-checkout` Supabase Edge Function.
+ * 2. Receives a Stripe Checkout Session URL.
+ * 3. Redirects the browser to Stripe's hosted checkout.
+ *
+ * On success, Stripe redirects back to `/dashboard?payment=success`.
+ * On cancellation, the user is sent to `/upgrade?payment=canceled`.
+ *
+ * @module pages/Upgrade
+ */
+
 import React, { useState } from 'react';
 import { Check, Sparkles, ArrowLeft, Shield, Zap } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';

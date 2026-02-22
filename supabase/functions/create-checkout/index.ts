@@ -1,6 +1,36 @@
+/**
+ * @fileoverview Supabase Edge Function — Stripe Checkout Session creator.
+ *
+ * **Endpoint**: `POST /functions/v1/create-checkout`
+ *
+ * **Request body** (JSON):
+ * | Field   | Type   | Description              |
+ * |---------|--------|--------------------------|
+ * | userId  | string | Supabase auth user id    |
+ * | email   | string | User's email address     |
+ *
+ * **Response** (JSON):
+ * | Field        | Type   | Description                         |
+ * |--------------|--------|-------------------------------------|
+ * | success      | bool   | `true` on success                   |
+ * | sessionId    | string | Stripe Checkout Session id          |
+ * | checkoutUrl  | string | Redirect URL for Stripe Checkout    |
+ *
+ * **Flow**:
+ * 1. Validates the `STRIPE_SECRET_KEY` environment variable.
+ * 2. Creates (or reuses) a Stripe Customer with the user's email.
+ * 3. Creates a Stripe Checkout Session for a $299/mo subscription.
+ * 4. Returns the checkout URL so the frontend can redirect.
+ *
+ * **Error codes**: 400 (missing fields / Stripe error), 503 (no key).
+ *
+ * @module supabase/functions/create-checkout
+ */
+
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
+/** CORS headers applied to every response (including preflight). */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",

@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Responsive navigation bar organism.
+ *
+ * Renders a sticky top nav with:
+ * - Brand logo + name from {@link config}
+ * - Desktop link row with smooth-scroll to page sections
+ * - Mobile hamburger menu with slide-in drawer
+ * - Background blur effect that intensifies on scroll
+ *
+ * @module components/Navigation
+ */
+
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { config } from '../config';

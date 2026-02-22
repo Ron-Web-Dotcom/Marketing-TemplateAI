@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Hero section — the primary above-the-fold content block.
+ *
+ * Displays the main headline, sub-headline, dual CTA buttons (download +
+ * demo), a hero image with a soft glow backdrop, and social proof badges
+ * ("Free 14-day trial", "No credit card required").
+ *
+ * @module components/sections/Hero
+ */
+
 import React from 'react';
 import { Download, Play } from 'lucide-react';
 import { config } from '../../config';

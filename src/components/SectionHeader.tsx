@@ -1,5 +1,15 @@
+/**
+ * @fileoverview Section heading molecule with title and optional subtitle.
+ *
+ * Provides a consistent typographic treatment for every landing page
+ * section — large bold title, muted subtitle, generous bottom margin.
+ *
+ * @module components/SectionHeader
+ */
+
 import React from 'react';
 
+/** Props accepted by the {@link SectionHeader} component. */
 interface SectionHeaderProps {
   title: string;
   subtitle?: string;

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Features grid section.
+ *
+ * Renders a responsive 3-column grid of feature cards sourced from the
+ * centralised {@link config}.  Icons are resolved dynamically from the
+ * `lucide-react` library.
+ *
+ * @module components/sections/Features
+ */
+
 import React from 'react';
 import * as Icons from 'lucide-react';
 import { config } from '../../config';

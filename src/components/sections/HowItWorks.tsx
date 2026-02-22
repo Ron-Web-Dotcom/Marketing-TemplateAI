@@ -1,3 +1,12 @@
+/**
+ * @fileoverview "How It Works" three-step walkthrough section.
+ *
+ * Displays a numbered step-by-step flow with connecting lines between
+ * steps on desktop.  Content is sourced from {@link config.howItWorks}.
+ *
+ * @module components/sections/HowItWorks
+ */
+
 import React from 'react';
 import { config } from '../../config';
 import { Section } from '../Section';

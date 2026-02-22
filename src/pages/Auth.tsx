@@ -1,8 +1,31 @@
+/**
+ * @fileoverview Authentication page — sign-in, sign-up, and password reset.
+ *
+ * Supports four view modes:
+ * 1. **Sign In** — Email/password + Google/Apple OAuth.
+ * 2. **Sign Up** — Email/password with confirmation + auto trial provisioning.
+ * 3. **Forgot Password** — Sends a Supabase password-reset email.
+ * 4. **Reset Password** — (placeholder for the token-based reset flow).
+ *
+ * Email validation includes:
+ * - RFC-compliant format check
+ * - Disposable / fake domain blocklist
+ * - TLD allowlist
+ * - Server-side DNS MX verification via the `verify-email-domain` edge function
+ *
+ * Password validation enforces:
+ * - Minimum 8 / maximum 72 characters
+ * - At least one uppercase, lowercase, digit, and special character
+ *
+ * @module pages/Auth
+ */
+
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight, Sparkles, ArrowLeft, KeyRound } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigation } from '../contexts/NavigationContext';
 
+/** Available view modes for the authentication form. */
 type ViewMode = 'signin' | 'signup' | 'forgot-password' | 'reset-password';
 
 export const Auth: React.FC = () => {

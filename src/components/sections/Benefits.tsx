@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Benefits section with dark background and stat highlights.
+ *
+ * Displays key ROI metrics (10x productivity, 20 hrs saved, 95% fewer
+ * errors) on a dark slate background with gradient stat callouts.
+ *
+ * @module components/sections/Benefits
+ */
+
 import React from 'react';
 import { config } from '../../config';
 import { Section } from '../Section';

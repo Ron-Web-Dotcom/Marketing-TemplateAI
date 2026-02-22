@@ -1,37 +1,57 @@
-// Template Configuration
-// Customize this file to match your brand
+/**
+ * @fileoverview Centralised brand and content configuration.
+ *
+ * All copy, colors, pricing tiers, FAQ items, and social links live here so
+ * the marketing site can be re-branded by editing a single file — no need to
+ * touch individual components.
+ *
+ * @module config
+ */
 
 export const config = {
-  // Brand Identity
+  /* ------------------------------------------------------------------ */
+  /*  Brand Identity                                                     */
+  /* ------------------------------------------------------------------ */
   brand: {
+    /** Display name shown in the navbar and footer. */
     name: "NeuralFlow",
+    /** Short tagline used in meta tags and hero badge. */
     tagline: "AI-Powered Workflow Automation",
-    logo: "⚡", // Replace with your logo component or image
+    /** Emoji or image path used as the logo. */
+    logo: "⚡",
   },
 
-  // Color System - Sophisticated blue/slate palette
+  /* ------------------------------------------------------------------ */
+  /*  Color System — Warm orange / amber palette                         */
+  /* ------------------------------------------------------------------ */
   colors: {
-    primary: "#0EA5E9", // Sky blue
+    primary: "#0EA5E9",
     primaryHover: "#0284C7",
-    secondary: "#64748B", // Slate
-    accent: "#10B981", // Emerald for success states
-    dark: "#0F172A", // Deep slate
+    secondary: "#64748B",
+    accent: "#10B981",
+    dark: "#0F172A",
     darkAlt: "#1E293B",
     light: "#F8FAFC",
     border: "#E2E8F0",
   },
 
-  // Hero Section
+  /* ------------------------------------------------------------------ */
+  /*  Hero Section                                                       */
+  /* ------------------------------------------------------------------ */
   hero: {
     announcement: "🎉 Now available on iOS, Android, and Web",
     headline: "Transform Your Workflow with Intelligent Automation",
-    subheadline: "NeuralFlow uses advanced AI to automate repetitive tasks, analyze data in real-time, and help teams achieve 10x productivity.",
+    subheadline:
+      "NeuralFlow uses advanced AI to automate repetitive tasks, analyze data in real-time, and help teams achieve 10x productivity.",
     primaryCTA: "Download for Free",
     secondaryCTA: "Watch Demo",
-    image: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1200", // AI/Tech themed
+    image:
+      "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
 
-  // Trust Indicators
+  /* ------------------------------------------------------------------ */
+  /*  Trust Indicators                                                   */
+  /* ------------------------------------------------------------------ */
   trust: {
     metrics: [
       { value: "500K+", label: "Active Users" },
@@ -42,60 +62,75 @@ export const config = {
     partners: ["Microsoft", "Google", "Salesforce", "Slack", "Notion", "Stripe"],
   },
 
-  // Features
+  /* ------------------------------------------------------------------ */
+  /*  Features                                                           */
+  /* ------------------------------------------------------------------ */
   features: [
     {
       icon: "Brain",
       title: "Smart Automation",
-      description: "AI learns your patterns and automates repetitive tasks, saving hours every day.",
+      description:
+        "AI learns your patterns and automates repetitive tasks, saving hours every day.",
     },
     {
       icon: "Zap",
       title: "Lightning Fast",
-      description: "Optimized performance with sub-second response times, even with massive datasets.",
+      description:
+        "Optimized performance with sub-second response times, even with massive datasets.",
     },
     {
       icon: "Shield",
       title: "Enterprise Security",
-      description: "Bank-level encryption, SOC 2 compliance, and complete data privacy.",
+      description:
+        "Bank-level encryption, SOC 2 compliance, and complete data privacy.",
     },
     {
       icon: "Globe",
       title: "Universal Integration",
-      description: "Connect with 1000+ apps and tools you already use daily.",
+      description:
+        "Connect with 1000+ apps and tools you already use daily.",
     },
     {
       icon: "TrendingUp",
       title: "Real-time Analytics",
-      description: "Deep insights and predictive analytics powered by machine learning.",
+      description:
+        "Deep insights and predictive analytics powered by machine learning.",
     },
     {
       icon: "Users",
       title: "Team Collaboration",
-      description: "Built for teams with advanced sharing, permissions, and workflows.",
+      description:
+        "Built for teams with advanced sharing, permissions, and workflows.",
     },
   ],
 
-  // How It Works
+  /* ------------------------------------------------------------------ */
+  /*  How It Works (3-step)                                              */
+  /* ------------------------------------------------------------------ */
   howItWorks: [
     {
       step: "1",
       title: "Connect Your Tools",
-      description: "Link your existing apps and data sources in seconds with one-click integrations.",
+      description:
+        "Link your existing apps and data sources in seconds with one-click integrations.",
     },
     {
       step: "2",
       title: "AI Learns Your Workflow",
-      description: "Our intelligent system observes patterns and suggests powerful automations.",
+      description:
+        "Our intelligent system observes patterns and suggests powerful automations.",
     },
     {
       step: "3",
       title: "Automate & Optimize",
-      description: "Activate workflows and watch AI handle tasks while you focus on what matters.",
+      description:
+        "Activate workflows and watch AI handle tasks while you focus on what matters.",
     },
   ],
 
-  // Use Cases
+  /* ------------------------------------------------------------------ */
+  /*  Use Cases                                                          */
+  /* ------------------------------------------------------------------ */
   useCases: [
     {
       title: "Sales Teams",
@@ -119,50 +154,71 @@ export const config = {
     },
   ],
 
-  // Benefits
+  /* ------------------------------------------------------------------ */
+  /*  Benefits                                                           */
+  /* ------------------------------------------------------------------ */
   benefits: [
     {
       title: "10x Productivity Boost",
-      description: "Teams using NeuralFlow complete projects 10 times faster on average.",
+      description:
+        "Teams using NeuralFlow complete projects 10 times faster on average.",
       stat: "10x",
     },
     {
       title: "Save 20+ Hours Weekly",
-      description: "Eliminate repetitive tasks and focus on high-impact work.",
+      description:
+        "Eliminate repetitive tasks and focus on high-impact work.",
       stat: "20hrs",
     },
     {
       title: "Reduce Errors by 95%",
-      description: "AI-powered accuracy ensures consistent, error-free execution.",
+      description:
+        "AI-powered accuracy ensures consistent, error-free execution.",
       stat: "95%",
     },
   ],
 
-  // Integrations
+  /* ------------------------------------------------------------------ */
+  /*  Integrations                                                       */
+  /* ------------------------------------------------------------------ */
   integrations: [
-    "Slack", "Google Workspace", "Microsoft 365", "Salesforce",
-    "HubSpot", "Notion", "Asana", "Jira", "GitHub", "Stripe",
-    "Shopify", "Zapier"
+    "Slack",
+    "Google Workspace",
+    "Microsoft 365",
+    "Salesforce",
+    "HubSpot",
+    "Notion",
+    "Asana",
+    "Jira",
+    "GitHub",
+    "Stripe",
+    "Shopify",
+    "Zapier",
   ],
 
-  // Testimonials
+  /* ------------------------------------------------------------------ */
+  /*  Testimonials                                                       */
+  /* ------------------------------------------------------------------ */
   testimonials: [
     {
-      quote: "NeuralFlow transformed how our team works. We've automated 80% of our routine tasks and can focus on strategic initiatives.",
+      quote:
+        "NeuralFlow transformed how our team works. We've automated 80% of our routine tasks and can focus on strategic initiatives.",
       author: "Sarah Chen",
       role: "VP of Operations",
       company: "TechCorp",
       rating: 5,
     },
     {
-      quote: "The AI is incredibly intuitive. It learned our workflow in days and now handles tasks we didn't even know could be automated.",
+      quote:
+        "The AI is incredibly intuitive. It learned our workflow in days and now handles tasks we didn't even know could be automated.",
       author: "Michael Rodriguez",
       role: "Head of Sales",
       company: "GrowthLabs",
       rating: 5,
     },
     {
-      quote: "Best investment we made this year. ROI was positive within the first month. The time savings alone are worth 10x the price.",
+      quote:
+        "Best investment we made this year. ROI was positive within the first month. The time savings alone are worth 10x the price.",
       author: "Emily Watson",
       role: "CEO",
       company: "DataFlow Inc",
@@ -170,7 +226,9 @@ export const config = {
     },
   ],
 
-  // Pricing
+  /* ------------------------------------------------------------------ */
+  /*  Pricing                                                            */
+  /* ------------------------------------------------------------------ */
   pricing: [
     {
       name: "Free",
@@ -223,37 +281,48 @@ export const config = {
     },
   ],
 
-  // FAQ
+  /* ------------------------------------------------------------------ */
+  /*  FAQ                                                                */
+  /* ------------------------------------------------------------------ */
   faq: [
     {
       question: "How does the free plan work?",
-      answer: "The free plan gives you full access to core features with a limit of 100 automations per month. No credit card required, cancel anytime.",
+      answer:
+        "The free plan gives you full access to core features with a limit of 100 automations per month. No credit card required, cancel anytime.",
     },
     {
       question: "Can I integrate with my existing tools?",
-      answer: "Yes! NeuralFlow integrates with 1000+ popular apps including Slack, Google Workspace, Salesforce, and many more. Custom integrations available on Enterprise plans.",
+      answer:
+        "Yes! NeuralFlow integrates with 1000+ popular apps including Slack, Google Workspace, Salesforce, and many more. Custom integrations available on Enterprise plans.",
     },
     {
       question: "Is my data secure?",
-      answer: "Absolutely. We use bank-level encryption, are SOC 2 compliant, and never share your data. You maintain full ownership and can export or delete anytime.",
+      answer:
+        "Absolutely. We use bank-level encryption, are SOC 2 compliant, and never share your data. You maintain full ownership and can export or delete anytime.",
     },
     {
       question: "How long does setup take?",
-      answer: "Most users are up and running in under 5 minutes. Our AI guides you through setup and starts learning your workflow immediately.",
+      answer:
+        "Most users are up and running in under 5 minutes. Our AI guides you through setup and starts learning your workflow immediately.",
     },
     {
       question: "Do you offer support?",
-      answer: "Yes! Free users get email support, Pro users get priority support, and Enterprise customers get 24/7 phone support with a dedicated account manager.",
+      answer:
+        "Yes! Free users get email support, Pro users get priority support, and Enterprise customers get 24/7 phone support with a dedicated account manager.",
     },
     {
       question: "Can I cancel anytime?",
-      answer: "Yes, you can cancel your subscription anytime with no penalties. Your data remains accessible during your billing period.",
+      answer:
+        "Yes, you can cancel your subscription anytime with no penalties. Your data remains accessible during your billing period.",
     },
   ],
 
-  // Footer
+  /* ------------------------------------------------------------------ */
+  /*  Footer                                                             */
+  /* ------------------------------------------------------------------ */
   footer: {
-    description: "The intelligent automation platform trusted by teams worldwide.",
+    description:
+      "The intelligent automation platform trusted by teams worldwide.",
     social: {
       twitter: "https://twitter.com",
       linkedin: "https://linkedin.com",

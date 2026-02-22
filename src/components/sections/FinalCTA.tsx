@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Final call-to-action section at the bottom of the page.
+ *
+ * Displays a large headline, sub-copy, and dual CTA buttons that scroll
+ * the user back up to the pricing section.  Acts as the last conversion
+ * touchpoint before the footer.
+ *
+ * @module components/sections/FinalCTA
+ */
+
 import React from 'react';
 import { Download, ArrowRight } from 'lucide-react';
 import { config } from '../../config';

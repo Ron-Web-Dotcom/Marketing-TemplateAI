@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Trust bar section with metrics and partner logos.
+ *
+ * Shows key platform statistics (users, rating, countries, uptime) and a
+ * row of recognised partner names to build social proof.
+ *
+ * @module components/sections/TrustBar
+ */
+
 import React from 'react';
 import { config } from '../../config';
 import { Section } from '../Section';

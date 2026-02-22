@@ -1,3 +1,21 @@
+/**
+ * @fileoverview Marketing analytics dashboard page.
+ *
+ * Protected route — redirects unauthenticated users to `/auth` and
+ * expired-trial users to `/upgrade`.
+ *
+ * Displays:
+ * - **KPI metric cards** — page views, visitors, revenue, conversion rate
+ * - **AI Insights panel** — recommendations, alerts, and insights
+ * - **Campaign overview** — total spend, revenue, ROI, clicks, conversions
+ * - **Active campaigns list** with CTR / CVR breakdowns
+ * - **Top performing content** with view counts and engagement
+ *
+ * Data is fetched in parallel from four Supabase tables on mount.
+ *
+ * @module pages/Dashboard
+ */
+
 import React, { useEffect, useState } from 'react';
 import {
   TrendingUp,
@@ -149,7 +167,7 @@ export const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/30 to-white">
       <div className="max-w-7xl mx-auto px-6 py-8">
         <button
-          onClick={() => (window as any).navigate?.('/')}
+          onClick={() => navigate('/')}
           className="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition-colors mb-6 group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
@@ -192,7 +210,7 @@ export const Dashboard: React.FC = () => {
                 </div>
               </div>
               <button
-                onClick={() => (window as any).navigate?.('/upgrade')}
+                onClick={() => navigate('/upgrade')}
                 className="bg-white text-orange-600 px-6 py-2 rounded-lg font-semibold hover:bg-orange-50 transition-colors shadow-md"
               >
                 Upgrade Now

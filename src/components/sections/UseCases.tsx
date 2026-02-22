@@ -1,3 +1,12 @@
+/**
+ * @fileoverview Use-cases section showcasing target audience segments.
+ *
+ * Renders a 4-column grid of cards — one per team type (Sales, Marketing,
+ * Operations, Support) — each with a dynamically resolved Lucide icon.
+ *
+ * @module components/sections/UseCases
+ */
+
 import React from 'react';
 import * as Icons from 'lucide-react';
 import { config } from '../../config';

@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Customer testimonials section.
+ *
+ * Renders a 3-column grid of customer quotes, each with a star rating,
+ * author name, title, and company.  Content is sourced from
+ * {@link config.testimonials}.
+ *
+ * @module components/sections/Testimonials
+ */
+
 import React from 'react';
 import { Star } from 'lucide-react';
 import { config } from '../../config';

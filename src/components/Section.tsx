@@ -1,5 +1,16 @@
+/**
+ * @fileoverview Reusable page section wrapper.
+ *
+ * Provides consistent vertical padding, max-width container, and three
+ * background presets (`white`, `light`, `dark`).  Used by every landing
+ * page section for visual rhythm.
+ *
+ * @module components/Section
+ */
+
 import React from 'react';
 
+/** Props accepted by the {@link Section} component. */
 interface SectionProps {
   children: React.ReactNode;
   className?: string;

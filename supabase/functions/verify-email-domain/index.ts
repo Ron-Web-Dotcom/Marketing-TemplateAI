@@ -1,5 +1,32 @@
+/**
+ * @fileoverview Supabase Edge Function — Email domain verification.
+ *
+ * **Endpoint**: `POST /functions/v1/verify-email-domain`
+ *
+ * **Request body** (JSON):
+ * | Field  | Type   | Description                    |
+ * |--------|--------|--------------------------------|
+ * | domain | string | Email domain to verify         |
+ *
+ * **Response** (JSON):
+ * | Field   | Type   | Description                         |
+ * |---------|--------|-------------------------------------|
+ * | isValid | bool   | Whether the domain passed checks    |
+ * | reason  | string | Human-readable explanation          |
+ *
+ * **Validation pipeline**:
+ * 1. IP-based rate limiting (5 requests / 60 s per IP).
+ * 2. Blocklist check against known disposable email providers.
+ * 3. DNS MX + A record lookup via Google Public DNS API.
+ *
+ * **Error codes**: 400 (missing domain), 429 (rate limited), 500 (DNS failure).
+ *
+ * @module supabase/functions/verify-email-domain
+ */
+
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
+/** CORS headers applied to every response (including preflight). */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",

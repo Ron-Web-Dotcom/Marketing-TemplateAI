@@ -1,5 +1,20 @@
+/**
+ * @fileoverview Subscription and trial management utilities.
+ *
+ * Contains CRUD helpers for the `user_subscriptions` table and pure
+ * functions for computing trial expiry status.  Used by
+ * {@link AuthContext} to surface subscription data throughout the app.
+ *
+ * @module utils/subscription
+ */
+
 import { supabase } from '../lib/supabase';
 
+/* ------------------------------------------------------------------ */
+/*  Types                                                              */
+/* ------------------------------------------------------------------ */
+
+/** Row shape of the `user_subscriptions` database table. */
 export interface UserSubscription {
   id: string;
   user_id: string;
@@ -14,7 +29,19 @@ export interface UserSubscription {
   updated_at: string;
 }
 
-export const createTrialSubscription = async (userId: string) => {
+/* ------------------------------------------------------------------ */
+/*  Database Operations                                                */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Insert a new 14-day trial subscription for a freshly registered user.
+ *
+ * @param userId - The Supabase auth user id.
+ * @returns The newly created subscription row, or `null` on error.
+ */
+export const createTrialSubscription = async (
+  userId: string
+): Promise<UserSubscription | null> => {
   const { data, error } = await supabase
     .from('user_subscriptions')
     .insert({
@@ -35,7 +62,15 @@ export const createTrialSubscription = async (userId: string) => {
   return data;
 };
 
-export const getUserSubscription = async (userId: string): Promise<UserSubscription | null> => {
+/**
+ * Fetch the subscription record for a specific user.
+ *
+ * @param userId - The Supabase auth user id.
+ * @returns The subscription row, or `null` if none exists.
+ */
+export const getUserSubscription = async (
+  userId: string
+): Promise<UserSubscription | null> => {
   const { data, error } = await supabase
     .from('user_subscriptions')
     .select('*')
@@ -50,21 +85,42 @@ export const getUserSubscription = async (userId: string): Promise<UserSubscript
   return data;
 };
 
+/* ------------------------------------------------------------------ */
+/*  Trial Status Computation                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Compute the trial / subscription status for display in the UI.
+ *
+ * If the trial has elapsed and the status is still `trial`, the row is
+ * updated to `expired` as a side-effect.
+ *
+ * @param subscription - The user's subscription row (may be `null`).
+ * @returns An object with `isExpired`, `daysRemaining`, and `isActive`.
+ */
 export const checkTrialStatus = (subscription: UserSubscription | null) => {
   if (!subscription) {
     return { isExpired: true, daysRemaining: 0, isActive: false };
   }
 
-  if (subscription.plan_type === 'enterprise' && subscription.subscription_status === 'active') {
+  /* Enterprise users with an active status never expire. */
+  if (
+    subscription.plan_type === 'enterprise' &&
+    subscription.subscription_status === 'active'
+  ) {
     return { isExpired: false, daysRemaining: Infinity, isActive: true };
   }
 
   const now = new Date();
   const trialEnd = new Date(subscription.trial_end_date);
-  const daysRemaining = Math.ceil((trialEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  const daysRemaining = Math.ceil(
+    (trialEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+  );
 
-  const isExpired = subscription.subscription_status === 'expired' || daysRemaining <= 0;
+  const isExpired =
+    subscription.subscription_status === 'expired' || daysRemaining <= 0;
 
+  /* Side-effect: mark the row as expired when the trial window closes. */
   if (isExpired && subscription.subscription_status === 'trial') {
     updateSubscriptionStatus(subscription.user_id, 'expired');
   }
@@ -76,10 +132,22 @@ export const checkTrialStatus = (subscription: UserSubscription | null) => {
   };
 };
 
-export const updateSubscriptionStatus = async (userId: string, status: 'trial' | 'active' | 'expired' | 'cancelled') => {
+/**
+ * Update the `subscription_status` column for a given user.
+ *
+ * @param userId - The Supabase auth user id.
+ * @param status - New status value.
+ */
+export const updateSubscriptionStatus = async (
+  userId: string,
+  status: 'trial' | 'active' | 'expired' | 'cancelled'
+) => {
   const { error } = await supabase
     .from('user_subscriptions')
-    .update({ subscription_status: status, updated_at: new Date().toISOString() })
+    .update({
+      subscription_status: status,
+      updated_at: new Date().toISOString(),
+    })
     .eq('user_id', userId);
 
   if (error) {
@@ -87,12 +155,22 @@ export const updateSubscriptionStatus = async (userId: string, status: 'trial' |
   }
 };
 
+/**
+ * Upgrade a user's subscription to the Enterprise plan after successful
+ * Stripe payment.
+ *
+ * @param userId                - Supabase auth user id.
+ * @param stripeCustomerId      - Stripe customer id.
+ * @param stripeSubscriptionId  - Stripe subscription id.
+ * @param stripePaymentMethodId - Stripe payment method id.
+ * @returns The updated subscription row, or `null` on failure.
+ */
 export const upgradeToEnterprise = async (
   userId: string,
   stripeCustomerId: string,
   stripeSubscriptionId: string,
   stripePaymentMethodId: string
-) => {
+): Promise<UserSubscription | null> => {
   const { data, error } = await supabase
     .from('user_subscriptions')
     .update({

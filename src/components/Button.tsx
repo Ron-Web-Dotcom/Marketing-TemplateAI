@@ -1,5 +1,16 @@
+/**
+ * @fileoverview Reusable Button atom component.
+ *
+ * Supports three visual variants (`primary`, `secondary`, `outline`) and
+ * three size presets.  When an `href` prop is provided the button renders
+ * as an `<a>` tag with smooth-scroll support for hash links.
+ *
+ * @module components/Button
+ */
+
 import React from 'react';
 
+/** Props accepted by the {@link Button} component. */
 interface ButtonProps {
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';

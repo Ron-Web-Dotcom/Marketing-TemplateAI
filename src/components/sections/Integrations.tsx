@@ -1,3 +1,13 @@
+/**
+ * @fileoverview Integrations showcase section with request modal.
+ *
+ * Lists supported third-party tool names in a responsive grid and
+ * provides a "Request an Integration" modal form so users can submit
+ * feature requests inline.
+ *
+ * @module components/sections/Integrations
+ */
+
 import React, { useState } from 'react';
 import { config } from '../../config';
 import { Section } from '../Section';

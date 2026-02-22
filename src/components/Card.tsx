@@ -1,5 +1,15 @@
+/**
+ * @fileoverview Generic Card container component.
+ *
+ * Renders a rounded white card with an optional hover lift + shadow effect.
+ * Used as a wrapper in feature grids, pricing, and dashboard widgets.
+ *
+ * @module components/Card
+ */
+
 import React from 'react';
 
+/** Props accepted by the {@link Card} component. */
 interface CardProps {
   children: React.ReactNode;
   className?: string;

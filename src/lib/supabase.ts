@@ -1,10 +1,29 @@
+/**
+ * @fileoverview Supabase client initialisation and shared TypeScript interfaces.
+ *
+ * Initialises the singleton Supabase client using validated environment
+ * variables and exports TypeScript interfaces that mirror the database
+ * table schemas for type-safe queries throughout the application.
+ *
+ * @module lib/supabase
+ */
+
 import { createClient } from '@supabase/supabase-js';
 import { getEnvVars } from '../utils/env';
 
 const env = getEnvVars();
 
+/**
+ * Singleton Supabase client used for all database, auth, and storage
+ * operations.  Credentials are sourced from environment variables.
+ */
 export const supabase = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY);
 
+/* ------------------------------------------------------------------ */
+/*  Database Table Interfaces                                          */
+/* ------------------------------------------------------------------ */
+
+/** A marketing campaign row from the `campaigns` table. */
 export interface Campaign {
   id: string;
   name: string;
@@ -21,6 +40,7 @@ export interface Campaign {
   updated_at: string;
 }
 
+/** A daily analytics snapshot from the `analytics_metrics` table. */
 export interface AnalyticsMetric {
   id: string;
   date: string;
@@ -33,6 +53,7 @@ export interface AnalyticsMetric {
   created_at: string;
 }
 
+/** An AI-generated insight from the `ai_insights` table. */
 export interface AIInsight {
   id: string;
   type: 'insight' | 'recommendation' | 'alert';
@@ -44,6 +65,7 @@ export interface AIInsight {
   created_at: string;
 }
 
+/** A content performance row from the `content_performance` table. */
 export interface ContentPerformance {
   id: string;
   title: string;

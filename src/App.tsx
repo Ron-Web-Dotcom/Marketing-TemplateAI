@@ -15,7 +15,7 @@
  * @module App
  */
 
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { NavigationProvider, useNavigation } from './contexts/NavigationContext';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/sections/Hero';
@@ -30,7 +30,9 @@ import { Pricing } from './components/sections/Pricing';
 import { FAQ } from './components/sections/FAQ';
 import { FinalCTA } from './components/sections/FinalCTA';
 import { Footer } from './components/sections/Footer';
-import { Dashboard } from './pages/Dashboard';
+import { Dashboard } from './pages/crm/Dashboard';
+import { Leads } from './pages/crm/Leads';
+import { Deals } from './pages/crm/Deals';
 import { Auth } from './pages/Auth';
 import { Upgrade } from './pages/Upgrade';
 
@@ -40,9 +42,32 @@ import { Upgrade } from './pages/Upgrade';
  */
 function AppContent() {
   const { currentRoute } = useNavigation();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // Auth Protection for CRM routes
+  const protectedRoutes = ['/dashboard', '/leads', '/deals', '/contacts', '/tasks', '/messages', '/settings', '/upgrade'];
+  if (protectedRoutes.includes(currentRoute) && !user) {
+    return <Auth />;
+  }
 
   if (currentRoute === '/dashboard') {
     return <Dashboard />;
+  }
+
+  if (currentRoute === '/leads') {
+    return <Leads />;
+  }
+
+  if (currentRoute === '/deals') {
+    return <Deals />;
   }
 
   if (currentRoute === '/auth') {
